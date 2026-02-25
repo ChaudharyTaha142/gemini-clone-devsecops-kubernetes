@@ -1,106 +1,330 @@
-# Advanced Gemini Clone - Enterprise DevSecOps Edition
+# Gemini Clone – Production-Ready DevSecOps Deployment with Kubernetes, Jenkins, and GitOps
 
-![Gemini Clone Logo](public/assets/readme-banner.png)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestrated-blue)
+![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-red)
+![DevSecOps](https://img.shields.io/badge/DevSecOps-Production-green)
+![GitOps](https://img.shields.io/badge/GitOps-Enabled-orange)
 
-A production-ready, highly optimized Google Gemini Clone built with Next.js, featuring a complete DevSecOps pipeline, Kubernetes orchestration, and GitOps deployment.
+A production-grade AI chat application inspired by Google Gemini, built using **Next.js 14**, **Google Generative AI**, **MongoDB**, and **NextAuth**, and fully deployed using modern **DevSecOps** practices including Docker containerization, Kubernetes orchestration, Jenkins CI/CD automation, and GitOps-based continuous deployment.
 
-##  Project Overview
-
-This project is an advanced recreation of the Gemini AI platform. It not only replicates the core functionalities of the original application but also introduces a robust, scalable, and secure infrastructure using modern DevOps practices.
-
-### Key Highlights
-- **Frontend & API:** Next.js 14, React 18, TailwindCSS, Zustand
-- **AI Integration:** Google Generative AI API
-- **Database:** MongoDB with Mongoose
-- **Containerization:** Docker & Docker Compose
-- **Orchestration:** Kubernetes (Kind)
-- **CI/CD Pipeline:** Jenkins (Master/Agent architecture)
-- **GitOps:** ArgoCD
-- **Infrastructure as Code:** Terraform (AWS EC2)
-- **Security & Quality:** SonarQube, Trivy, OWASP Dependency-Check
-- **Observability:** Prometheus & Grafana
+This project demonstrates a complete DevOps lifecycle implementation from infrastructure provisioning to automated deployment in a Kubernetes environment.
 
 ---
 
-##  Architecture & Pipeline
+## 🚀 DevOps Architecture Overview
 
-Our DevSecOps pipeline ensures code quality, security, and seamless deployment:
+**Flow:** Development → Docker → Jenkins CI/CD → Docker Registry → Kubernetes Deployment → Ingress Routing → Production
 
-1. **Continuous Integration (Jenkins):**
-   - Source code checkout
-   - Code Quality Analysis (SonarQube)
-   - Software Composition Analysis (OWASP Dependency-Check)
-   - Container Image Vulnerability Scanning (Trivy)
-   - Docker Image Build & Push to Registry
+Key DevOps capabilities implemented:
 
-2. **Continuous Deployment (ArgoCD):**
-   - GitOps-based synchronization
-   - Automated deployment to Kubernetes cluster
-   - ConfigMap and Secret management
+- Containerization using Docker with production-ready builds
+- Kubernetes orchestration with Deployments, Services, Ingress, HPA, ConfigMaps, and Secrets
+- CI/CD automation using Jenkins pipelines (Kubernetes-based Jenkins setup)
+- GitOps-compatible deployment workflow using declarative Kubernetes manifests
+- Secure secrets and configuration management (ConfigMap + Secret split)
+- Persistent storage using Kubernetes Persistent Volumes and PVCs
+- Reverse proxy and SSL using Nginx Ingress + cert-manager (Let’s Encrypt)
 
-3. **Infrastructure (Terraform):**
-   - Automated provisioning of AWS EC2 instances for Jenkins Master and Build Agents.
+---
+## 🏗️ DevOps Architecture Diagram
+
+This project follows a production-grade DevSecOps workflow:
+
+```
+Developer → GitHub → Jenkins CI/CD → Docker Image Build → Container Registry → Kubernetes Deployment → Ingress Controller → End Users
+```
+
+**Components involved:**
+
+
+- **Jenkins** → CI/CD automation
+- **Docker** → Application containerization
+- **Kubernetes** → Orchestration and scaling
+- **Nginx Ingress** → Traffic routing
+- **cert-manager** → TLS automation
+- **MongoDB** → Persistent storage
+
+---
+## ✨ Application Features
+
+This project is also a feature-rich clone of Google Gemini with:
+
+- Fast, optimized responses using the **@google/generative-ai** SDK
+- Modern, responsive UI with custom components, micro-animations, and theming
+- Persistent, authenticated chat experience with MongoDB + NextAuth
+- End-to-end production deployment using Docker, Kubernetes, and Jenkins pipelines
+
+If you’re looking for a real-world, end-to-end **AI app + DevSecOps** reference project, this repo is built for exactly that.
 
 ---
 
-##  Getting Started
+## 💬 Core Chat Features
 
-### 1. Local Development Setup
+### Chat & AI
+- Interactive AI chat powered by **Google Generative AI**
+- Support for **editing prompts** and regenerating responses
+- **Chat management**: create, rename, delete, pin previous conversations
+- **Optimistic UI** and loaders for smooth UX
+- **Prompt Gallery** with curated prompts and masonry layout
+- **Code-aware responses** with syntax highlighting
 
-Clone the repository and install dependencies:
+### Rich UX
+- Fully responsive layout (desktop + mobile)
+- **Dark / Light mode** via `next-themes`
+- **Framer Motion** micro-animations
+- Custom `dev-components` (buttons, modals, drawers, toggles, tooltips, toasts)
+- Text input helpers: random prompts, actions, shortcuts
 
-\\ash
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/dev-gemini-clone.git
-cd dev-gemini-clone
+### Media & Accessibility
+- **Text-to-Speech** and **Speech-to-Text** integrations
+- Share chat links and copy-to-clipboard
+- Image-friendly chat experience (with mobile support)
+### Auth & State
+- Authentication with **NextAuth v5** + **Google OAuth**
+- Session-aware routing (redirect to `/app` when logged in)
+- Global state with **Zustand** for chat/session UI state
+
+---
+
+## 🧱 Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, custom CSS, `globals.css`
+- **State Management**: Zustand
+- **Auth**: NextAuth v5 (Google Provider)
+- **DB / ORM**: MongoDB + Mongoose
+- **UI / UX**: Framer Motion, custom components, `react-icons`, tooltips, drawers
+- **AI SDK**: `@google/generative-ai`
+- **Markdown & Editor**: `react-markdown`, TipTap + lowlight + highlight.js
+- **Notifications**: `sonner`
+- **Infra / DevOps**:
+  - Docker & Docker Compose
+  - Kubernetes on **kind** (local) or any K8s cluster
+  - Nginx Ingress + cert-manager (Let’s Encrypt TLS)
+  - Jenkins Helm chart (controller + agents) for CI/CD
+
+
+---
+
+## 📂 Project Structure (High Level)
+
+- `src/app` – Next.js App Router pages
+  - `page.tsx` – Landing page with GitHub and "Try Now" CTA
+  - `(routes)/(general)/app` – Authenticated app shell & chat routes
+  - `api/auth/[...nextauth]/route.ts` – NextAuth v5 API route
+- `src/components` – All UI components
+  - `chat-provider-components/` – Chat UI, loaders, code blocks, TTS/STT, share, etc.
+  - `header-components/` – App header, logo, sign-in, top loader
+  - `sidebar-components/` – Chat list, theme switch, sidebar layout
+  - `input-prompt-components/` – Prompt input box & actions
+  - `prompt-gallery-components/` – Prompt cards & gallery
+  - `dev-components/` – Reusable design system primitives
+- `src/utils` – DB connection, Zustand store, theme providers, emoji & prompt data
+- `src/models` – `user.model.ts`, `chat.model.ts` (Mongoose schemas)
+- `kind/` – Kubernetes manifests (Deployment, Service, Ingress, HPA, PVC, MongoDB, Nginx, Secrets, ConfigMap, Namespace)
+- `jenkins/` & `GitOps/` – Jenkins pipeline + GitOps layout
+
+For a more UI-focused description, see **ABOUT_APP.md**.
+
+---
+
+## 🔑 Environment Variables
+
+All production env setup is documented in **ENV_SETUP.md**. Summary of required keys:
+
+- `GOOGLE_ID` – Google OAuth Client ID
+- `GOOGLE_SECRET` – Google OAuth Client Secret
+- `MONGODB_URI` – MongoDB connection string (Atlas recommended)
+- `NEXTAUTH_SECRET` – NextAuth secret (use `npx auth secret` to generate)
+- `NEXTAUTH_URL` – Base URL of your deployed app
+- `NEXT_PUBLIC_API_KEY` – Public API key for Google Generative AI
+
+Create a `.env.local` for local development:
+
+```bash
+GOOGLE_ID=your_google_client_id
+GOOGLE_SECRET=your_google_client_secret
+MONGODB_URI=your_mongodb_uri
+NEXTAUTH_SECRET=your_generated_secret
+NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_API_KEY=your_google_generative_ai_key
+```
+
+> ⚠️ Never commit `.env*` files to Git.
+
+---
+
+## 🧑‍💻 Local Development
+
+### 1. Install Dependencies
+
+```bash
 npm install
-\
-Set up your environment variables (see \ENV_SETUP.md\ for details):
-\\ash
-cp .env.sample .env.local
-# Add your Google OAuth, MongoDB URI, and NextAuth Secret
-\
-Run the development server:
-\\ash
+# or
+yarn
+# or
+pnpm install
+```
+
+### 2. Set Up Env
+
+Create `.env.local` as shown above.
+
+### 3. Run Dev Server
+
+```bash
 npm run dev
-\
-### 2. Docker Deployment
+```
 
-Build and run the application using Docker Compose:
-
-\\ash
-docker-compose up -d --build
-\
-### 3. Kubernetes Deployment (Kind & ArgoCD)
-
-Provision a local Kubernetes cluster using Kind:
-\\ash
-kind create cluster --name gemini-cluster --config kind/kind-config.yml
-\
-Install ArgoCD and apply the application manifests:
-\\ash
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-kubectl apply -f kind/
-\
----
-
-##  Security & Code Quality
-
-This project integrates industry-standard security tools:
-- **SonarQube:** Enforces clean code standards and detects bugs/code smells.
-- **Trivy:** Scans Docker images for OS packages and software dependencies vulnerabilities.
-- **OWASP Dependency-Check:** Identifies project dependencies with known vulnerabilities.
+Then open: http://localhost:3000
 
 ---
 
-##  Observability
+## 🐳 Docker & Docker Compose
 
-Monitoring is configured using the Kube-Prometheus stack:
-- **Prometheus:** Collects and stores metrics as time series data.
-- **Grafana:** Visualizes metrics through comprehensive dashboards (Cluster health, API server status, Pod metrics).
+### Build Image
+
+```bash
+docker build -t your-dockerhub-username/dev-gemini-clone:latest .
+```
+
+### Run Container
+
+```bash
+docker run -p 3000:3000 --env-file .env.production \
+  your-dockerhub-username/dev-gemini-clone:latest
+```
+
+### Using Docker Compose
+
+If you prefer Compose (see `docker-compose.yml`):
+
+```bash
+docker-compose up --build
+```
 
 ---
 
-##  License
+## ☸️ Kubernetes (kind / any cluster)
 
-This project is licensed under the MIT License.
+Kubernetes manifests live in `kind/`. They cover:
+
+- `gemini-deployment.yml` – Next.js app Deployment (replicas, resources, env)
+- `gemini-service.yml` – NodePort Service on port 3000
+- `gemini-ingress.yml` – Nginx Ingress with TLS via cert-manager
+- `mongodb-*.yml` – MongoDB Deployment + Service
+- `nginx-*.yml` – Nginx ingress controller
+- `configmap.yml` – Non-secret env vars (IDs, URLs, etc.)
+- `secrets.yml` – Encrypted secrets (Google, NextAuth, API key)
+- `persistent-volume*.yml` – Storage for MongoDB
+- `gemini-hpa.yml` – Horizontal Pod Autoscaler config
+- `gemini-namespace.yml` – Dedicated namespace: `gemini-namespace`
+
+### Example: Apply Manifests
+
+```bash
+# Create namespace
+kubectl apply -f kind/gemini-namespace.yml
+
+# Config & secrets
+kubectl apply -f kind/configmap.yml
+kubectl apply -f kind/secrets.yml
+
+# Storage & DB
+kubectl apply -f kind/persistent-volume.yml
+kubectl apply -f kind/persistent-volume-claim.yml
+kubectl apply -f kind/mongodb-deployment.yml
+kubectl apply -f kind/mongodb-service.yml
+
+# App & ingress
+kubectl apply -f kind/gemini-deployment.yml
+kubectl apply -f kind/gemini-service.yml
+kubectl apply -f kind/nginx-deployment.yml
+kubectl apply -f kind/nginx-service.yml
+kubectl apply -f kind/gemini-ingress.yml
+```
+
+Once DNS / nip.io and TLS are configured, you can access the app via the host configured in `gemini-ingress.yml`.
+
+---
+
+## 🧪 CI/CD with Jenkins
+
+The `jenkins/` folder shows how to run **Jenkins on Kubernetes** using Helm, including controller + agents.
+
+### Quick Start (from jenkins/README.md)
+
+```bash
+helm repo add jenkins https://charts.jenkins.io
+helm repo update
+
+kubectl create ns jenkins
+
+helm install jenkins jenkins/jenkins -n jenkins -f values.yaml
+```
+
+Then forward the service and open the UI:
+
+```bash
+kubectl port-forward svc/jenkins -n jenkins 8080:8080
+# http://localhost:8080
+```
+
+You can wire the provided Jenkinsfile(s) to:
+
+- Build the Docker image
+- Push to Docker Hub
+- Deploy to your Kubernetes cluster (GitOps style via `GitOps/` if desired)
+
+---
+
+## 🎯 DevOps Skills Demonstrated
+
+This project demonstrates hands-on experience with:
+
+- Kubernetes cluster deployment and management
+- CI/CD pipeline automation using Jenkins
+- Docker containerization and optimization
+- Kubernetes autoscaling using HPA
+- Secure configuration using ConfigMaps and Secrets
+- Ingress controller and SSL setup using Nginx and cert-manager
+- GitOps-based deployment workflow
+- Production-grade application deployment
+
+---
+
+## 🧭 Key User Flows
+
+- Visit `/` – Landing page with **GitHub** button and **Try Now** CTA
+- Click **Try Now** → `/app` – If not signed in, you’ll be asked to authenticate
+- Sign in with Google → redirected to **main chat UI**
+- Start chatting, manage chats, explore prompt gallery, use TTS/STT, etc.
+
+---
+
+## 🤝 Contributing
+
+Suggestions, issues, and PRs are welcome.
+
+- Fork the repo
+- Create a feature branch
+- Commit with clear messages
+- Open a pull request describing your change
+
+---
+
+## 📄 License
+
+This project is for educational and portfolio/demo purposes. Adapt the license section to your own needs if you plan to open-source or commercialize it.
+
+---
+
+## 👨‍💻 Author
+
+**Muhammad Taha Azhar**  
+Cloud & DevOps Engineer
+
+- **GitHub:** https://github.com/ChaudharyTaha142
+- **LinkedIn:** https://www.linkedin.com/in/muhmmad-taha-azhar/
